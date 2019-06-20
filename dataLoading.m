@@ -1,16 +1,16 @@
-%×¼±¸Êı¾İ
+%å‡†å¤‡æ•°æ®
 
 clear; clc;
-[trainFace, trainLabels1, testFace, testLabels1] = loadFace(); %¶ÁÈ¡Êı¾İ
-[trainLabels2, testLabels2] = reform(trainLabels1, testLabels1); %×ª»»Êä³ö¸ñÊ½
-picShow(trainFace(1:20, :)')  %ÏÔÊ¾²¿·ÖÑµÁ·¼¯ÈËÁ³
-[pcaFace, V] = fastPCA(trainFace, 30);   %ÌáÈ¡ÌØÕ÷£¬pca½µÎ¬
-picShow(V)   %ÏÔÊ¾ÌØÕ÷Á³
-pcaTrainFace = scaling(pcaFace);  %¹éÒ»»¯ÑµÁ·¼¯
-pcaTestFace = testFace * V;      %ÓÉV¾ØÕó¶Ô²âÊÔ¼¯½øĞĞ½µÎ¬²Ù×÷
-pcaTestFace = scaling(pcaTestFace);  %¹éÒ»»¯²âÊÔ¼¯
+[trainFace, trainLabels1, testFace, testLabels1] = loadFace(0.7); %è¯»å–æ•°æ®
+[trainLabels2, testLabels2] = reform(trainLabels1, testLabels1); %è½¬æ¢è¾“å‡ºæ ¼å¼
+picShow(trainFace(1:20, :)')  %æ˜¾ç¤ºéƒ¨åˆ†è®­ç»ƒé›†äººè„¸
+[pcaFace, V] = fastPCA(trainFace, 40);   %æå–ç‰¹å¾ï¼Œpcaé™ç»´
+picShow(V)   %æ˜¾ç¤ºç‰¹å¾è„¸
+pcaTrainFace = scaling(pcaFace);  %å½’ä¸€åŒ–è®­ç»ƒé›†
+pcaTestFace = testFace * V;      %ç”±VçŸ©é˜µå¯¹æµ‹è¯•é›†è¿›è¡Œé™ç»´æ“ä½œ
+pcaTestFace = scaling(pcaTestFace);  %å½’ä¸€åŒ–æµ‹è¯•é›†
 
-function picShow(V)  %ÏÔÊ¾º¯Êı
+function picShow(V)  %æ˜¾ç¤ºå‡½æ•°
 figure
 img = zeros(112, 92);
 for i = 1:20
@@ -20,7 +20,7 @@ for i = 1:20
 end
 end
 
-function scaledFace = scaling(inputFace)   %¹éÒ»»¯º¯Êı£¬Ëõ·Åµ½¡¾0£¬1¡¿Çø¼äÄÚ
+function scaledFace = scaling(inputFace)   %å½’ä¸€åŒ–å‡½æ•°ï¼Œç¼©æ”¾åˆ°ã€0ï¼Œ1ã€‘åŒºé—´å†…
 range = minmax(inputFace');
 range = range';
 minVec = range(1, :);
@@ -28,7 +28,7 @@ maxVec = range(2, :);
 scaledFace = (inputFace - minVec(1,:))./(maxVec(1,:) - minVec(1,:));
 end
 
-%×ª»»±êÇ©µÄ¸ñÊ½£¬ÕâÖÖ¸ñÊ½Ó¦ÓÃÉñ¾­ÍøÂçÊ±¸ü·½±ã
+%è½¬æ¢æ ‡ç­¾çš„æ ¼å¼ï¼Œè¿™ç§æ ¼å¼åº”ç”¨ç¥ç»ç½‘ç»œæ—¶æ›´æ–¹ä¾¿
 function [trainLabels2, testLabels2] = reform(trainLabels1, testLabels1)
 n1 = size(trainLabels1, 1);
 n2 = size(testLabels1, 1);
