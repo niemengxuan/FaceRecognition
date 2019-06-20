@@ -28,7 +28,7 @@ end
 function [dW, db] = propagate(W, b, X, Y)
 %X[n0, m]   Y[n1, m]  W[n1, n0]  b[n1, 1]
 m = size(X, 2);   
-A = sigmoid(W*X + b);  %n1¡Ám
+A = sigmoid(W*X + b);  %n1Â¡Ãm
 dZ = A - Y;  %[n1, m]
 dW = 1 / m * dZ * X'; %[n1, n0]
 db = 1 / m * sum(dZ, 2); %[n1, 1]
@@ -42,9 +42,8 @@ end
 function accuracy = test(W, b, X, Y)
 m = size(Y, 2);
 Y1 = sigmoid(W * X + b);
-Y1(Y1>=0.5) = 1;
-Y1(Y1 < 0.5) = 0;
-D = (Y1 == Y);
-d = sum(~D);
-accuracy = sum(d == 0) / m;
+[~, M1] = max(Y1);
+[~, M2] = max(Y);
+d = sum(M1 == M2);
+accuracy = d / m;
 end
