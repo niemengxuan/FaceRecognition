@@ -6,7 +6,7 @@ hlayer = par(3);
 accuracy = test(W1, b1, W2, b2, testSet, testLabels);
 end
 
-%ÑµÁ·
+%è®­ç»ƒ
 function [W1, b1, W2, b2] = training(X, Y, num_iter, alph, hlayer)
 [n0, m] = size(X);
 n1 = size(Y, 1);
@@ -16,7 +16,7 @@ W2 = rand(n1, hlayer);
 b2 = rand(n1, 1);
 
 batch_size = 50;        
-for i = 1:num_iter       %ÌÝ¶ÈÏÂ½µ
+for i = 1:num_iter       %æ¢¯åº¦ä¸‹é™
     L = randperm(m);
     X_ = X(:, L(1:batch_size));
     Y_ = Y(:, L(1:batch_size));
@@ -32,7 +32,7 @@ end
 end
 
 function [dW1, db1, dW2, db2] = grad(X, A1, A2, Y, W2, Z1)
-%¸÷¾ØÕóµÄÎ¬¶È
+%å„çŸ©é˜µçš„ç»´åº¦
 %X[nx, m]  A1[n1, m]  A2,Y[n2, m]  W1[n1, nx] W2[n2, n1] 
 % b1[n1, 1]  b2[n2, 1]
 m = size(X, 2);   
@@ -52,13 +52,12 @@ function s = sigmoid(z)
 s = 1 ./ (1 + exp(-z));
 end
 
-function accuracy = test(W1, b1, W2, b2, X, Y) %¼ÆËã²âÊÔ¼¯ÕýÈ·ÂÊ
+function accuracy = test(W1, b1, W2, b2, X, Y) %è®¡ç®—æµ‹è¯•é›†æ­£ç¡®çŽ‡
 m = size(Y, 2);
 A = relu(W1 * X + b1);
 Y1 = sigmoid(W2 * A + b2);
-Y1(Y1 >= 0.5) = 1;
-Y1(Y1 < 0.5) = 0;
-D = (Y1 == Y);
-d = sum(~D);
-accuracy = sum(d == 0) / m;
+[~, M1] = max(Y1);
+[~, M2] = max(Y);
+d = sum(M1 == M2);
+accuracy = d / m;
 end
